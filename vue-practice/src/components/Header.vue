@@ -1,5 +1,5 @@
 <template>
-  <h1>{{headerValue}}</h1>
+  <h1 v-if='searchTitle'>{{searchTitle}}</h1>
 </template>
 
 
@@ -10,6 +10,9 @@
       return {
         headerValue: 'asdf'
       }
+    },
+    props: {
+      searchTitle: String,
     }
   }
 </script>

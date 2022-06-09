@@ -1,7 +1,7 @@
 <template>
   <main>
-    <Header />
-    <AnimeTitles :animeTitles='animeList' />
+    <Header :searchTitle='searchTitle'/>
+    <AnimeTitles :animeTitles='animeList' :searchTitle='searchTitle' />
     <Button @submit='submitForm' />
   </main>
 </template>
@@ -19,15 +19,16 @@
     },
     data () {
       return {
-        animeList: '',
+        animeList: [],
+        searchTitle: '',
       }
     },
     methods: {
-      submitForm: async function () {
-        const results = await fetch('https://api.jikan.moe/v4/anime?q=naruto&sfw')
+      submitForm: async function (search) {
+        this.searchTitle = search;
+        const results = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&sfw`)
         const list = await results.json();
         this.animeList = list.data;
-        console.log(this.animeList)
       }
     }
   }
