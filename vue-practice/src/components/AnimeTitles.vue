@@ -14,6 +14,7 @@
     props: {
       props: Object
     },
+    emits: ['addFavorite']
   }
 </script>
 

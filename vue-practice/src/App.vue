@@ -7,7 +7,7 @@
         }'
         @addFavorite='addFavorites'/>
     <Button @submit='submitForm' />
-    <Favorites :props='favorites' />
+    <Favorites :props='favorites' @removeFavorite='removeFavorite'/>
   </main>
 </template>
 
@@ -52,6 +52,10 @@
         let favorites = [...this.favorites];
         favorites.push(anime);
         this.favorites = favorites
+      },
+      removeFavorite: function(anime) {
+        const index = this.favorites.indexOf(anime);
+        this.favorites.splice(index, 1);
       }
     }
   }
