@@ -1,13 +1,18 @@
 <template>
   <main>
+    <div>
+      <a href='#'>Home</a>
+      <a href='#Favorites'>Favorites</a>
+    </div>
     <Header :searchTitle='searchTitle'/>
     <AnimeTitles :props='{
           animeList: this.animeList,
-          searchTitle: this.searchTitle
+          searchTitle: this.searchTitle,
+          favorites: this.favorites
         }'
-        @addFavorite='addFavorites'/>
+        @add-favorite='addFavorites'/>
     <Button @submit='submitForm' />
-    <Favorites :props='favorites' @removeFavorite='removeFavorite'/>
+    <Favorites :props='favorites' @remove-favorite='removeFavorite'/>
   </main>
 </template>
 
@@ -17,6 +22,14 @@
   import Button from './components/Button.vue'
   import AnimeTitles from './components/AnimeTitles.vue'
   import Favorites from './components/Favorites.vue'
+  function parseRoute(hashRoute) {
+    if (hashRoute.startsWith('#')) {
+      hashRoute = hashRoute.replace('#', '');
+    }
+    const [path, queryString] = hashRoute.split('?');
+    const params = new URLSearchParams(queryString);
+    return { path, params };
+  }
   export default {
     components: {
       Header,
@@ -28,7 +41,8 @@
       return {
         animeList: [],
         searchTitle: '',
-        favorites: []
+        favorites: [],
+        route: parseRoute(window.location.hash)
       }
     },
     mounted() {
@@ -64,5 +78,10 @@
   }
 </script>
 
-<style>
+<style scoped>
+  a {
+    text-decoration: none;
+    color: black;
+    margin: 3rem;
+  }
 </style>
