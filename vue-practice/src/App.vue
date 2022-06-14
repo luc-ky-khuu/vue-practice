@@ -49,6 +49,9 @@
         this.animeList = list.data;
       },
       addFavorites: function(anime) {
+        if (this.favorites.indexOf(anime) > -1) {
+          return
+        }
         let favorites = [...this.favorites];
         favorites.push(anime);
         this.favorites = favorites
