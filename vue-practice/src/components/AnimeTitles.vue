@@ -1,14 +1,13 @@
 <template>
   <ul v-if='props.animeList.length > 0'>
-    <li v-for='(title, index) in props.animeList'
-      :key='index'
+    <li v-for='title in props.animeList'
+      :key='title.mal_id'
       :class="[props.favorites.indexOf(title.title) > -1 && 'green']"
     >
-      {{title.title}}
+      <a :href="'#' + title.mal_id">{{title.title}}</a>
       <button @click.prevent='$emit("add-favorite", title.title)'>Add Favorite</button>
     </li>
   </ul>
-  <h1 v-else-if='!props.searchTitle'>Search for Anime Below!</h1>
 </template>
 
 <script>
@@ -22,6 +21,10 @@
 </script>
 
 <style>
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
   ul {
     border: 3px solid black;
     border-radius: 10px

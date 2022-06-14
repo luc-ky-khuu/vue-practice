@@ -4,15 +4,23 @@
       <a href='#'>Home</a>
       <a href='#Favorites'>Favorites</a>
     </div>
-    <Header :searchTitle='searchTitle'/>
-    <AnimeTitles :props='{
-          animeList: this.animeList,
-          searchTitle: this.searchTitle,
-          favorites: this.favorites
-        }'
-        @add-favorite='addFavorites'/>
-    <Button @submit='submitForm' />
-    <Favorites :props='favorites' @remove-favorite='removeFavorite'/>
+    <div v-if='Number(route.path) > 0'>
+      <Details :malId='route.path'/>
+    </div>
+    <div v-else-if="route.path === 'Favorites'">
+      <Favorites :props='favorites' @remove-favorite='removeFavorite'/>
+    </div>
+    <div v-else>
+      <Header :searchTitle='searchTitle'/>
+      <h1 v-if='!searchTitle'>Search for Anime Below!</h1>
+      <Button @submit='submitForm' />
+      <AnimeTitles :props='{
+            animeList: this.animeList,
+            searchTitle: this.searchTitle,
+            favorites: this.favorites
+          }'
+          @add-favorite='addFavorites'/>
+    </div>
   </main>
 </template>
 
@@ -22,6 +30,7 @@
   import Button from './components/Button.vue'
   import AnimeTitles from './components/AnimeTitles.vue'
   import Favorites from './components/Favorites.vue'
+  import Details from './components/Details.vue'
   function parseRoute(hashRoute) {
     if (hashRoute.startsWith('#')) {
       hashRoute = hashRoute.replace('#', '');
@@ -35,7 +44,8 @@
       Header,
       Button,
       AnimeTitles,
-      Favorites
+      Favorites,
+      Details
     },
     data () {
       return {
@@ -54,6 +64,9 @@
         const dataJSON = JSON.stringify(this.favorites);
         localStorage.setItem('anime-vue-favorites', dataJSON);
       });
+      window.addEventListener('hashchange', () => {
+        this.route = parseRoute(window.location.hash);
+      });
     },
     methods: {
       submitForm: async function (search) {
@@ -61,6 +74,7 @@
         const results = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&sfw`)
         const list = await results.json();
         this.animeList = list.data;
+        console.log('list', list.data)
       },
       addFavorites: function(anime) {
         if (this.favorites.indexOf(anime) > -1) {
@@ -80,8 +94,6 @@
 
 <style scoped>
   a {
-    text-decoration: none;
-    color: black;
     margin: 3rem;
   }
 </style>
