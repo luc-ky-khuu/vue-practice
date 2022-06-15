@@ -1,35 +1,34 @@
 <template>
   <main>
-    <div>
-      <a href='#'>Home</a>
-      <a href='#Favorites'>Favorites</a>
-    </div>
+    <Navbar />
+
     <div v-if='Number(route.path) > 0'>
       <Details :malId='route.path'/>
     </div>
+
     <div v-else-if="route.path === 'Favorites'">
       <Favorites :props='favorites' @remove-favorite='removeFavorite'/>
     </div>
+
     <div v-else>
-      <Header :searchTitle='searchTitle'/>
-      <h1 v-if='!searchTitle'>Search for Anime Below!</h1>
-      <Button @submit='submitForm' />
-      <AnimeTitles :props='{
+      <Home
+        @submit='submitForm'
+        :props='{
             animeList: this.animeList,
             searchTitle: this.searchTitle,
             favorites: this.favorites
           }'
-          @add-favorite='addFavorites'/>
+        @add-favorite='addFavorites'
+          />
     </div>
   </main>
 </template>
 
 
 <script>
-  import Header from './components/Header.vue'
-  import Button from './components/Button.vue'
-  import AnimeTitles from './components/AnimeTitles.vue'
-  import Favorites from './components/Favorites.vue'
+  import Home from './pages/Index.vue'
+  import Favorites from './pages/Favorites.vue'
+  import Navbar from './components/Navbar.vue'
   import Details from './components/Details.vue'
   function parseRoute(hashRoute) {
     if (hashRoute.startsWith('#')) {
@@ -41,11 +40,10 @@
   }
   export default {
     components: {
-      Header,
-      Button,
-      AnimeTitles,
+      Home,
       Favorites,
-      Details
+      Details,
+      Navbar
     },
     data () {
       return {
@@ -93,7 +91,5 @@
 </script>
 
 <style scoped>
-  a {
-    margin: 3rem;
-  }
+
 </style>

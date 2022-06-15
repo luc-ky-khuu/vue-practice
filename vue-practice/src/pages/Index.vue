@@ -1,4 +1,10 @@
 <template>
+  <Header :searchTitle='props.searchTitle'/>
+  <h1 v-if='!props.searchTitle'>Search for Anime Below!</h1>
+   <form>
+    <input v-model='searchTitle'>
+    <button @click.prevent="$emit('submit', searchTitle)" >button</button>
+  </form>
   <ul v-if='props.animeList.length > 0'>
     <li v-for='title in props.animeList'
       :key='title.mal_id'
@@ -11,11 +17,18 @@
 </template>
 
 <script>
+  import Header from '../components/Header.vue'
   export default {
     name: 'anime titles',
-    props: {
-      props: Object
+    data() {
+      return {
+        searchTitle: ''
+      }
     },
+    components: {
+      Header,
+    },
+    props:['props'],
     emits: ['add-favorite']
   }
 </script>
