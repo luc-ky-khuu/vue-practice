@@ -65,15 +65,22 @@
         const results = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&sfw`)
         const list = await results.json();
         this.animeList = list.data;
-        console.log('list', list.data)
       },
-      addFavorites: function(anime) {
+      addFavorites: async function(anime) {
         if (this.favorites.indexOf(anime) > -1) {
           return
         }
         let favorites = [...this.favorites];
         favorites.push(anime);
         this.favorites = favorites
+        await fetch('api/favorites', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(anime)
+        })
+
       },
       removeFavorite: function(anime) {
         const index = this.favorites.indexOf(anime);

@@ -2,7 +2,7 @@
   <h1>Favorites</h1>
   <ul>
     <li v-for='(anime, index) in props' :key='index'>
-      {{anime}}
+      {{anime.title}}
       <button @click.prevent='$emit("remove-favorite", anime)'>Remove Fav</button>
     </li>
   </ul>

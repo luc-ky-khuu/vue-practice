@@ -8,10 +8,10 @@
   <ul v-if='props.animeList.length > 0'>
     <li v-for='title in props.animeList'
       :key='title.mal_id'
-      :class="[props.favorites.indexOf(title.title) > -1 && 'green']"
+      :class="[props.favorites.indexOf(title) > -1 && 'green']"
     >
       <a :href="'#' + title.mal_id">{{title.title}}</a>
-      <button @click.prevent='$emit("add-favorite", title.title)'>Add Favorite</button>
+      <button @click.prevent='$emit("add-favorite", title)'>Add Favorite</button>
     </li>
   </ul>
 </template>
@@ -29,7 +29,7 @@
       Header,
     },
     props:['props'],
-    emits: ['add-favorite']
+    emits: ['add-favorite', 'submit']
   }
 </script>
 
