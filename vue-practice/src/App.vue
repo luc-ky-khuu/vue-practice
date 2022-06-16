@@ -54,17 +54,10 @@
       }
     },
     mounted() {
-      const previousDataJSON = localStorage.getItem('anime-vue-favorites');
-      if (previousDataJSON !== null) {
-        this.favorites = JSON.parse(previousDataJSON);
-      }
-      window.addEventListener('beforeunload', () => {
-        const dataJSON = JSON.stringify(this.favorites);
-        localStorage.setItem('anime-vue-favorites', dataJSON);
-      });
       window.addEventListener('hashchange', () => {
         this.route = parseRoute(window.location.hash);
       });
+      this.fetchFavorites();
     },
     methods: {
       submitForm: async function (search) {
@@ -85,6 +78,11 @@
       removeFavorite: function(anime) {
         const index = this.favorites.indexOf(anime);
         this.favorites.splice(index, 1);
+      },
+      fetchFavorites: async function() {
+        const res = await fetch('api/favorites');
+        const list = await res.json();
+        this.favorites = list;
       }
     }
   }
