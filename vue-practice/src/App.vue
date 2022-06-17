@@ -29,7 +29,7 @@
   import Home from './pages/Index.vue'
   import Favorites from './pages/Favorites.vue'
   import Navbar from './components/Navbar.vue'
-  import Details from './components/Details.vue'
+  import Details from './pages/Details.vue'
   function parseRoute(hashRoute) {
     if (hashRoute.startsWith('#')) {
       hashRoute = hashRoute.replace('#', '');
