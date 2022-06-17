@@ -5,15 +5,10 @@
 
 <script>
   export default {
-    name: 'Header one',
-    data() {
-      return {
-        headerValue: 'asdf'
-      }
-    },
+    name: 'Anime Search Title',
     props: {
       searchTitle: String,
-    }
+    },
   }
 </script>
 

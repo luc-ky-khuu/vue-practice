@@ -3,7 +3,7 @@
   <h1 v-if='!props.searchTitle'>Search for Anime Below!</h1>
    <form>
     <input v-model='searchTitle'>
-    <button @click.prevent="$emit('submit', searchTitle)" >button</button>
+    <button @click.prevent="submitForm(searchTitle)" >button</button>
   </form>
   <ul v-if='props.animeList.length > 0'>
     <li v-for='title in props.animeList'
@@ -29,7 +29,12 @@
       Header,
     },
     props:['props'],
-    emits: ['add-favorite', 'submit']
+    emits: ['add-favorite', 'submit'],
+    methods: {
+      submitForm: function(title) {
+        this.$emit('submit', title)
+      }
+    }
   }
 </script>
 
