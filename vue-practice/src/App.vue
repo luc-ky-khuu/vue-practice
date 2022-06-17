@@ -86,9 +86,14 @@
         })
 
       },
-      removeFavorite: function(anime) {
+      removeFavorite: async function(anime) {
         const index = this.favorites.indexOf(anime);
         this.favorites.splice(index, 1);
+        console.log(anime);
+        await fetch(`api/favorites/${anime.id}`, {
+          method: 'DELETE',
+          body: JSON.stringify(anime.id)
+        })
       },
       fetchFavorites: async function() {
         const res = await fetch('api/favorites');
