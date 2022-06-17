@@ -8,8 +8,9 @@
   <ul v-if='props.animeList.length > 0'>
     <li v-for='title in props.animeList'
       :key='title.mal_id'
-      :class="[props.favorites.indexOf(title) > -1 && 'green']"
+      :class="[checkFavs(props.favorites, title.mal_id)]"
     >
+    {{checkFavs(props.favorites)}}
       <a :href="'#' + title.mal_id">{{title.title}}</a>
       <button @click.prevent='$emit("add-favorite", title)'>Add Favorite</button>
     </li>
@@ -22,7 +23,8 @@
     name: 'anime titles',
     data() {
       return {
-        searchTitle: ''
+        searchTitle: '',
+        favs:[]
       }
     },
     components: {
@@ -33,6 +35,14 @@
     methods: {
       submitForm: function(title) {
         this.$emit('submit', title)
+      },
+      checkFavs: function(prop, id) {
+        const favs = JSON.parse(JSON.stringify(prop));
+        for (let i = 0; i < favs.length; i++) {
+          if (favs[i].mal_id === id) {
+            return 'green'
+          }
+        }
       }
     }
   }

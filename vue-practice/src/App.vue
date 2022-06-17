@@ -70,15 +70,19 @@
         if (this.favorites.indexOf(anime) > -1) {
           return
         }
+        const newFav = {
+          title: anime.title,
+          mal_id: anime.mal_id
+        }
         let favorites = [...this.favorites];
-        favorites.push(anime);
+        favorites.push(newFav);
         this.favorites = favorites
         await fetch('api/favorites', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
           },
-          body: JSON.stringify(anime)
+          body: JSON.stringify(newFav)
         })
 
       },
