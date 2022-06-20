@@ -1,13 +1,14 @@
 <template>
   <div>
-    <router-link to='/'>Home</router-link>
-    <router-link to='/favorites'>Favorites</router-link>
+    <router-link to='/' @click.prevent='$emit("reset-home")'>Home</router-link>
+    <router-link to='/favorites' @click.prevent='$emit("fetch-favorites")'>Favorites</router-link>
   </div>
 </template>
 
 <script>
   export default {
     name: 'Navbar',
+    emits: ['reset-home', 'fetch-favorites']
   }
 </script>
 

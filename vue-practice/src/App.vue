@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Navbar />
+    <Navbar @reset-home='resetHome' @fetch-favorites='fetchFavorites'/>
     <router-view v-if="this.$route.path === '/'"
       @submit='submitForm'
       :props='{
@@ -16,7 +16,7 @@
         }'
       @remove-favorite='removeFavorite'
         ></router-view>
-
+    <router-view v-else></router-view>
     <Footer />
   </main>
 </template>
@@ -41,6 +41,10 @@
       this.fetchFavorites();
     },
     methods: {
+      resetHome: function() {
+        this.searchTitle = '';
+        this.animeList = [];
+      },
       submitForm: async function (search) {
         this.searchTitle = search;
         const results = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&sfw`)
@@ -48,8 +52,10 @@
         this.animeList = list.data;
       },
       addFavorites: async function(anime) {
-        if (this.favorites.indexOf(anime) > -1) {
-          return
+        for (let i = 0; i < this.favorites.length; i++) {
+          if (this.favorites[i].title === anime.title) {
+            return;
+          }
         }
         const newFav = {
           title: anime.title,
@@ -65,7 +71,6 @@
           },
           body: JSON.stringify(newFav)
         })
-
       },
       removeFavorite: async function(anime) {
         const index = this.favorites.indexOf(anime);
