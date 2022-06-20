@@ -1,51 +1,32 @@
 <template>
   <main>
     <Navbar />
+    <router-view v-if="this.$route.path === '/'"
+      @submit='submitForm'
+      :props='{
+          animeList: this.animeList,
+          searchTitle: this.searchTitle,
+          favorites: this.favorites
+        }'
+      @add-favorite='addFavorites'
+        ></router-view>
+    <router-view v-else-if="this.$route.path === '/favorites'"
+      :props='{
+          favorites: this.favorites
+        }'
+      @remove-favorite='removeFavorite'
+        ></router-view>
 
-    <div v-if='Number(route.path) > 0'>
-      <Details :malId='route.path'/>
-    </div>
-
-    <div v-else-if="route.path === 'Favorites'">
-      <Favorites :props='favorites' @remove-favorite='removeFavorite'/>
-    </div>
-
-    <div v-else>
-      <Home
-        @submit='submitForm'
-        :props='{
-            animeList: this.animeList,
-            searchTitle: this.searchTitle,
-            favorites: this.favorites
-          }'
-        @add-favorite='addFavorites'
-          />
-    </div>
-    <router-view :favs='favorites'></router-view>
     <Footer />
   </main>
 </template>
 
 
 <script>
-  import Home from './views/Index.vue'
-  import Favorites from './views/Favorites.vue'
   import Navbar from './components/Navbar.vue'
-  import Details from './views/Details.vue'
   import Footer from './components/Footer.vue'
-  function parseRoute(hashRoute) {
-    if (hashRoute.startsWith('#')) {
-      hashRoute = hashRoute.replace('#', '');
-    }
-    const [path, queryString] = hashRoute.split('?');
-    const params = new URLSearchParams(queryString);
-    return { path, params };
-  }
   export default {
     components: {
-      Home,
-      Favorites,
-      Details,
       Navbar,
       Footer
     },
@@ -54,13 +35,9 @@
         animeList: [],
         searchTitle: '',
         favorites: [],
-        route: parseRoute(window.location.hash)
       }
     },
     mounted() {
-      window.addEventListener('hashchange', () => {
-        this.route = parseRoute(window.location.hash);
-      });
       this.fetchFavorites();
     },
     methods: {
@@ -93,7 +70,6 @@
       removeFavorite: async function(anime) {
         const index = this.favorites.indexOf(anime);
         this.favorites.splice(index, 1);
-        console.log(anime);
         await fetch(`api/favorites/${anime.id}`, {
           method: 'DELETE',
           body: JSON.stringify(anime.id)
