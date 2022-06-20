@@ -1,7 +1,7 @@
 <template>
   <h1>Favorites</h1>
   <ul>
-    <li v-for='(anime, index) in props' :key='index'>
+    <li v-for='(anime, index) in favs' :key='index'>
       {{anime.title}}
       <button @click.prevent='$emit("remove-favorite", anime)'>Remove Fav</button>
     </li>
@@ -12,7 +12,7 @@
   export default {
     name: 'favorite list',
     props: {
-      props: Array
+      favs: Array
     },
     emits: ['remove-favorite']
   }

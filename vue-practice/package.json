@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "json-server": "^0.17.0",
-    "vue": "^3.2.36"
+    "vue": "^3.2.36",
+    "vue-router": "^4.0.13",
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

@@ -21,15 +21,18 @@
         @add-favorite='addFavorites'
           />
     </div>
+    <router-view :favs='favorites'></router-view>
+    <Footer />
   </main>
 </template>
 
 
 <script>
-  import Home from './pages/Index.vue'
-  import Favorites from './pages/Favorites.vue'
+  import Home from './views/Index.vue'
+  import Favorites from './views/Favorites.vue'
   import Navbar from './components/Navbar.vue'
-  import Details from './pages/Details.vue'
+  import Details from './views/Details.vue'
+  import Footer from './components/Footer.vue'
   function parseRoute(hashRoute) {
     if (hashRoute.startsWith('#')) {
       hashRoute = hashRoute.replace('#', '');
@@ -43,7 +46,8 @@
       Home,
       Favorites,
       Details,
-      Navbar
+      Navbar,
+      Footer
     },
     data () {
       return {

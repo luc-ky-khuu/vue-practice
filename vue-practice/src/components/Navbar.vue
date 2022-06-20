@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a href='#'>Home</a>
-    <a href='#Favorites'>Favorites</a>
+    <router-link to='/'>Home</router-link>
+    <router-link to='/favorites'>Favorites</router-link>
   </div>
 </template>
 
