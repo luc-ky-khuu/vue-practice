@@ -1,16 +1,14 @@
 <template>
-  <h1>{{headerValue}}</h1>
+  <h1 v-if='searchTitle'>{{searchTitle}}</h1>
 </template>
 
 
 <script>
   export default {
-    name: 'Header one',
-    data() {
-      return {
-        headerValue: 'asdf'
-      }
-    }
+    name: 'Anime Search Title',
+    props: {
+      searchTitle: String,
+    },
   }
 </script>
 
